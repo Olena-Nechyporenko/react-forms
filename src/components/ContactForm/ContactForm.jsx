@@ -1,14 +1,14 @@
 import { Component } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import css from './ContactForm.module.css';
 
 const initialValues = { name: '', number: '' };
 const schema = Yup.object().shape({
   name: Yup.string()
-    .min(2, 'Too Short!')
-    .max(70, 'Too Long!')
-    .required('Required'),
-  number: Yup.number().required(),
+    .min(2, 'Must be at least 2 characters long')
+    .max(70, 'Must be no more than 70 characters long'),
+  number: Yup.number(),
 });
 
 export class ContactForm extends Component {
@@ -18,16 +18,15 @@ export class ContactForm extends Component {
   };
 
   handleInputChange = evt => {
-    const { value, name } = evt.currentTarget;
-    this.setState({ [name]: value });
+    const { value, name } = evt.target;
+    this.setState({ [name]: value.trim() });
   };
 
-  handleSubmit = () => {
-    return this.props.onSubmit(this.state);
+  handleSubmit = (values, { resetForm }) => {
+    this.props.onSubmit(values);
+    resetForm();
   };
-  //   reset = () => {
-  //     this.setState({ name: '', number: '' });
-  //   };
+
   render() {
     return (
       <Formik
@@ -35,33 +34,37 @@ export class ContactForm extends Component {
         validationSchema={schema}
         onSubmit={this.handleSubmit}
       >
-        <Form autoComplete="off">
-          <label htmlFor="name">
+        <Form className={css.form} autoComplete="off">
+          <label className={css.formLabel} htmlFor="name">
             Name
             <Field
+              className={css.formInput}
               onInput={this.handleInputChange}
               type="text"
               name="name"
               required
             />
-            <span>
+            <span className={css.error}>
               <ErrorMessage name="name" />
             </span>
           </label>
-          <label htmlFor="number">
+          <label className={css.formLabel} htmlFor="number">
             Number
             <Field
+              className={css.formInput}
               onInput={this.handleInputChange}
               type="tel"
               name="number"
               placeholder="+380"
               required
             />
-            <span>
+            <span className={css.error}>
               <ErrorMessage name="number" />
             </span>
           </label>
-          <button type="submit">Add contact</button>
+          <button className={css.formBtn} type="submit">
+            Add contact
+          </button>
         </Form>
       </Formik>
     );
