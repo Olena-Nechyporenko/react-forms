@@ -12,16 +12,6 @@ const schema = Yup.object().shape({
 });
 
 export class ContactForm extends Component {
-  state = {
-    name: '',
-    number: '',
-  };
-
-  handleInputChange = evt => {
-    const { value, name } = evt.target;
-    this.setState({ [name]: value.trim() });
-  };
-
   handleSubmit = (values, { resetForm }) => {
     this.props.onSubmit(values);
     resetForm();
@@ -37,13 +27,7 @@ export class ContactForm extends Component {
         <Form className={css.form} autoComplete="off">
           <label className={css.formLabel} htmlFor="name">
             Name
-            <Field
-              className={css.formInput}
-              onInput={this.handleInputChange}
-              type="text"
-              name="name"
-              required
-            />
+            <Field className={css.formInput} type="text" name="name" required />
             <span className={css.error}>
               <ErrorMessage name="name" />
             </span>
@@ -52,7 +36,6 @@ export class ContactForm extends Component {
             Number
             <Field
               className={css.formInput}
-              onInput={this.handleInputChange}
               type="tel"
               name="number"
               placeholder="+380"

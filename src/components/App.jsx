@@ -13,9 +13,9 @@ export class App extends Component {
 
   //   Filter contacts
 
-  filterContacts = evt => {
+  filterContacts = value => {
     this.setState({
-      filter: evt.currentTarget.value.trim(),
+      filter: value,
     });
   };
   getFilteredContacts = () => {
@@ -42,7 +42,7 @@ export class App extends Component {
     }
     this.setState(prevState => {
       return {
-        contacts: prevState.contacts.concat({
+        contacts: prevState.contacts.push({
           id: nanoid(),
           name: data.name,
           number: data.number,
