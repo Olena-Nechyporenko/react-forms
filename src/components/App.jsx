@@ -42,11 +42,14 @@ export class App extends Component {
     }
     this.setState(prevState => {
       return {
-        contacts: prevState.contacts.push({
-          id: nanoid(),
-          name: data.name,
-          number: data.number,
-        }),
+        contacts: [
+          ...prevState.contacts,
+          {
+            id: nanoid(),
+            name: data.name,
+            number: data.number,
+          },
+        ],
       };
     });
   };
